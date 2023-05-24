@@ -25,17 +25,26 @@ class FeatureBuilder implements Builder {
 
     final featureDir = isIntegrationTest ? 'integration_test' : 'test';
 
+    final featureTestFolder = expectedOutputs(this, inputId).last;
+    final name = featureTestFolder.pathSegments.last;
+
     final feature = FeatureFile(
-      featureDir: featureDir,
+      featureDir: featureTestFolder.path,
       package: inputId.package,
       isIntegrationTest: isIntegrationTest,
-      existingSteps: getExistingStepSubfolders(featureDir, options.stepFolder),
+      existingSteps: getExistingStepSubfolders(featureDir, 'step'),
       input: contents,
       generatorOptions: options,
     );
 
-    final featureDart = expectedOutputs(this, inputId).first;
-    await buildStep.writeAsString(featureDart, feature.dartContent);
+    await createFileRecursively(
+      '${featureTestFolder.path}/${name}_test.dart',
+      feature.dartContent,
+    );
+
+    final expectedOutput = expectedOutputs(this, inputId).first;
+
+    await buildStep.writeAsString(expectedOutput, name);
 
     final steps = feature
         .getStepFiles()
@@ -66,6 +75,9 @@ class FeatureBuilder implements Builder {
 
   @override
   final buildExtensions = const {
-    'test/features/{{}}.feature': ['test/{{}}_test.dart'],
+    'test/features/{{name}}.feature': [
+      'test/{{name}}/.tracker',
+      'test/{{name}}/'
+    ],
   };
 }

@@ -18,8 +18,8 @@ Feature: Testing feature
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './step/the_test_finishes.dart';
-import './step/the_app_is_running.dart';
+import '../step/the_test_finishes.dart';
+import '../step/the_app_is_running.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -38,7 +38,7 @@ void main() {
 ''';
 
     final feature = FeatureFile(
-      featureDir: 'test.feature',
+      featureDir: 'test',
       package: 'test',
       input: featureFile,
     );

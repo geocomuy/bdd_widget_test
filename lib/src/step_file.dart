@@ -17,7 +17,7 @@ abstract class StepFile {
 
     if (existingSteps.containsKey(file)) {
       final import =
-          p.join('.', existingSteps[file], file).replaceAll(r'\', '/');
+          p.join('..', existingSteps[file], file).replaceAll(r'\', '/');
       return ExistingStepFile._(import);
     }
 
@@ -29,9 +29,8 @@ abstract class StepFile {
 
     // if (generatorOptions.stepFolder.startsWith('./') ||
     //     generatorOptions.stepFolder.startsWith('../')) {
-    final import =
-        p.join(generatorOptions.stepFolder, file).replaceAll(r'\', '/');
-    final filename = p.join(featureDir, generatorOptions.stepFolder, file);
+    final import = p.join('../step', file).replaceAll(r'\', '/');
+    final filename = p.join(featureDir, 'step', file);
     return NewStepFile._(import, filename, package, line);
     // }
 

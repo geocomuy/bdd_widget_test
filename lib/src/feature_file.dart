@@ -18,7 +18,9 @@ class FeatureFile {
         .where((line) => line.type == LineType.step)
         .map(
           (e) => StepFile.create(
-            featureDir,
+            featureDir.contains('integration_test')
+                ? 'integration_test'
+                : 'test',
             package,
             e.value,
             existingSteps,

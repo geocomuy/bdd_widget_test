@@ -23,9 +23,9 @@ Feature: Testing feature
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './step/there_are_cucumbers.dart';
-import './step/i_eat_cucumbers.dart';
-import './step/i_should_have_cucumbers.dart';
+import '../step/there_are_cucumbers.dart';
+import '../step/i_eat_cucumbers.dart';
+import '../step/i_should_have_cucumbers.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -70,7 +70,7 @@ Feature: Testing feature
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './step/there_are_mixed_parameters.dart';
+import '../step/there_are_mixed_parameters.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {

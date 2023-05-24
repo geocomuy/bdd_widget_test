@@ -8,7 +8,7 @@ targets:
     builders:
       bdd_widget_test|featureBuilder:
         options:
-          stepFolderName: step # this trick is required to share steps between widget and integration tests
+          # stepFolderName: ../step # this trick is required to share steps between widget and integration tests
           # testMethodName: customTestMethodName
           include: package:bdd_widget_test/bdd_options.yaml # you may add defaul external steps with this line
           externalSteps: # or list only steps that you need

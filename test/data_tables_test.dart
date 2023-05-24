@@ -23,9 +23,9 @@ Feature: Testing feature
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './step/the_following_users_exist.dart';
-import './step/i_wait.dart';
-import './step/user_with_twitter_is_still_there.dart';
+import '../step/the_following_users_exist.dart';
+import '../step/i_wait.dart';
+import '../step/user_with_twitter_is_still_there.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {

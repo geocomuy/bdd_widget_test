@@ -34,7 +34,7 @@ void main() {
 
   test('simplest feature file parses', () {
     const expectedFeatureDart = '''
-${expectedHeader}import './step/the_app_is_running.dart';
+${expectedHeader}import '../step/the_app_is_running.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -55,9 +55,9 @@ void main() {
 
   test('Step with parameters', () {
     const expectedFeatureDart = '''
-${expectedHeader}import './step/the_app_is_running.dart';
-import './step/i_see_text.dart';
-import './step/i_see_icon.dart';
+${expectedHeader}import '../step/the_app_is_running.dart';
+import '../step/i_see_text.dart';
+import '../step/i_see_icon.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -82,7 +82,7 @@ void main() {
     const expectedFeatureDart = '''
 $expectedComment// some comment
 
-${expectedImports}import './step/the_app_is_running.dart';
+${expectedImports}import '../step/the_app_is_running.dart';
 
 void main() {
   group(\'\'\'First testing feature\'\'\', () {

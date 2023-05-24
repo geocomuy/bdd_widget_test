@@ -3,31 +3,26 @@ import 'package:bdd_widget_test/src/util/isolate_helper.dart';
 import 'package:yaml/yaml.dart';
 
 const _defaultTestName = 'testWidgets';
-const _stepFolderName = './step';
 
 class GeneratorOptions {
   const GeneratorOptions({
     String? testMethodName,
     List<String>? externalSteps,
-    String? stepFolderName,
     this.include,
     this.splitScenarios = false,
-  })  : stepFolder = stepFolderName ?? _stepFolderName,
-        testMethodName = testMethodName ?? _defaultTestName,
+  })  : testMethodName = testMethodName ?? _defaultTestName,
         externalSteps = externalSteps ?? const [];
 
   factory GeneratorOptions.fromMap(Map<String, dynamic> json) =>
       GeneratorOptions(
         testMethodName: json['testMethodName'] as String?,
         externalSteps: (json['externalSteps'] as List?)?.cast<String>(),
-        stepFolderName: json['stepFolderName'] as String?,
         include: json['include'] is String
             ? [(json['include'] as String)]
             : (json['include'] as List?)?.cast<String>(),
         splitScenarios: json['splitScenarios'] as bool? ?? false,
       );
 
-  final String stepFolder;
   final String testMethodName;
   final List<String>? include;
   final List<String> externalSteps;
@@ -64,7 +59,6 @@ GeneratorOptions readFromUri(Uri uri) {
   return GeneratorOptions(
     testMethodName: doc['testMethodName'] as String?,
     externalSteps: (doc['externalSteps'] as List?)?.cast<String>(),
-    stepFolderName: doc['stepFolderName'] as String?,
     include: doc['include'] is String
         ? [(doc['include'] as String)]
         : (doc['include'] as YamlList?)?.value.cast<String>(),
@@ -76,8 +70,6 @@ GeneratorOptions merge(GeneratorOptions a, GeneratorOptions b) =>
       testMethodName: a.testMethodName != _defaultTestName
           ? a.testMethodName
           : b.testMethodName,
-      stepFolderName:
-          a.stepFolder != _stepFolderName ? a.stepFolder : b.stepFolder,
       externalSteps: [...a.externalSteps, ...b.externalSteps],
       include: b.include,
       splitScenarios: a.splitScenarios,
