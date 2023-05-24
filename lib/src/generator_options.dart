@@ -11,6 +11,7 @@ class GeneratorOptions {
     List<String>? externalSteps,
     String? stepFolderName,
     this.include,
+    this.splitScenarios = false,
   })  : stepFolder = stepFolderName ?? _stepFolderName,
         testMethodName = testMethodName ?? _defaultTestName,
         externalSteps = externalSteps ?? const [];
@@ -23,12 +24,14 @@ class GeneratorOptions {
         include: json['include'] is String
             ? [(json['include'] as String)]
             : (json['include'] as List?)?.cast<String>(),
+        splitScenarios: json['splitScenarios'] as bool? ?? false,
       );
 
   final String stepFolder;
   final String testMethodName;
   final List<String>? include;
   final List<String> externalSteps;
+  final bool splitScenarios;
 }
 
 Future<GeneratorOptions> flattenOptions(GeneratorOptions options) async {
@@ -77,4 +80,5 @@ GeneratorOptions merge(GeneratorOptions a, GeneratorOptions b) =>
           a.stepFolder != _stepFolderName ? a.stepFolder : b.stepFolder,
       externalSteps: [...a.externalSteps, ...b.externalSteps],
       include: b.include,
+      splitScenarios: a.splitScenarios,
     );

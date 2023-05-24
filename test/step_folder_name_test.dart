@@ -52,7 +52,7 @@ Feature: Testing feature
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../custom_steps/the_app_is_running.dart';
+import 'custom_steps/the_app_is_running.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -64,11 +64,12 @@ void main() {
 ''';
 
     final feature = FeatureFile(
-      featureDir: 'test/subdir/feature',
+      featureDir: 'test/features',
       package: 'test',
       input: featureFile,
       generatorOptions: const GeneratorOptions(stepFolderName: 'custom_steps'),
     );
+
     expect(feature.dartContent, expectedFeatureDart);
   });
 }

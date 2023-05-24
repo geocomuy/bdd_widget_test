@@ -28,9 +28,9 @@ Feature: Counter 2
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../my_steps/the_app_is_running.dart';
-import '../../my_steps/_i_do_not_see_text.dart';
-import '../../my_steps/i_run_code.dart';
+import 'my_steps/the_app_is_running.dart';
+import 'my_steps/_i_do_not_see_text.dart';
+import 'my_steps/i_run_code.dart';
 import 'package:bdd_sample/i_see_text.dart';
 
 void main() {

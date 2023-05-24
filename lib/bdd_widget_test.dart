@@ -5,8 +5,6 @@ import 'package:bdd_widget_test/src/step_file.dart';
 import 'package:bdd_widget_test/src/util/fs.dart';
 import 'package:build/build.dart';
 
-import 'package:path/path.dart' as p;
-
 Builder featureBuilder(BuilderOptions options) => FeatureBuilder(
       GeneratorOptions.fromMap(options.config),
     );
@@ -23,17 +21,20 @@ class FeatureBuilder implements Builder {
     final inputId = buildStep.inputId;
     final contents = await buildStep.readAsString(inputId);
 
-    final featureDir = p.dirname(inputId.path);
+    final isIntegrationTest = inputId.pathSegments.contains('integration_test');
+
+    final featureDir = isIntegrationTest ? 'integration_test' : 'test';
+
     final feature = FeatureFile(
       featureDir: featureDir,
       package: inputId.package,
-      isIntegrationTest: inputId.pathSegments.contains('integration_test'),
+      isIntegrationTest: isIntegrationTest,
       existingSteps: getExistingStepSubfolders(featureDir, options.stepFolder),
       input: contents,
       generatorOptions: options,
     );
 
-    final featureDart = inputId.changeExtension('_test.dart');
+    final featureDart = expectedOutputs(this, inputId).first;
     await buildStep.writeAsString(featureDart, feature.dartContent);
 
     final steps = feature
@@ -65,6 +66,6 @@ class FeatureBuilder implements Builder {
 
   @override
   final buildExtensions = const {
-    '.feature': ['_test.dart']
+    'test/features/{{}}.feature': ['test/{{}}_test.dart'],
   };
 }

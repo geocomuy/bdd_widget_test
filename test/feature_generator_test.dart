@@ -201,7 +201,7 @@ stepFolderName: ./scenarios
 const pkgName = 'pkg';
 
 Future<String> generate(String scenario, [BuilderOptions? options]) async {
-  final path = 'test/builder_scenarios/$scenario';
+  const path = 'test/features';
 
   final srcs = <String, String>{
     '$pkgName|$path/sample.feature': minimalFeatureFile,
@@ -215,7 +215,7 @@ Future<String> generate(String scenario, [BuilderOptions? options]) async {
     writer: writer,
   );
   return String.fromCharCodes(
-    writer.assets[AssetId(pkgName, '$path/sample_test.dart')] ?? [],
+    writer.assets[AssetId(pkgName, 'test/sample_test.dart')] ?? [],
   );
 }
 
