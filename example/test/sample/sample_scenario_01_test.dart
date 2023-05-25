@@ -15,9 +15,11 @@ void main() {
     Future<void> bddSetUp(WidgetTester tester) async {
       await theAppIsRunning(tester);
     }
+
     Future<void> bddTearDown(WidgetTester tester) async {
       await iDoNotSeeText(tester, 'surprise');
     }
+
     testWidgets('''Initial counter value is 0''', (tester) async {
       try {
         await bddSetUp(tester);

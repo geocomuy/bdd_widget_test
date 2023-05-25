@@ -16,6 +16,7 @@ void main() {
     Future<void> bddSetUp(WidgetTester tester) async {
       await theAppIsRunning(tester);
     }
+
     testWidgets('''Add button increments the counter''', (tester) async {
       await bddSetUp(tester);
       await iTapIcon(tester, Icons.add);
