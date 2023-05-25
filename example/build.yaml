@@ -1,17 +1,17 @@
 targets:
   $default:
     sources:
-      - integration_test/**   # By default, build runner will not generate code in the integration folder
-      - test/**               # so we override paths for code generation here
+      - integration_test/** # By default, build runner will not generate code in the integration folder
+      - test/** # so we override paths for code generation here
       - lib/**
       - $package$
     builders:
       bdd_widget_test|featureBuilder:
         options:
-          stepFolderName: step # this trick is required to share steps between widget and integration tests
+          # stepFolderName: ../step # this trick is required to share steps between widget and integration tests
           # testMethodName: customTestMethodName
           include: package:bdd_widget_test/bdd_options.yaml # you may add defaul external steps with this line
-          externalSteps:                                    # or list only steps that you need
+          externalSteps: # or list only steps that you need
             - package:bdd_widget_test/step/i_see_text.dart
             # - package:bdd_widget_test/step/i_dont_see_text.dart
             # - package:bdd_widget_test/step/i_see_multiple_texts.dart

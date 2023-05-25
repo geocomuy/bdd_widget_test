@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "name": "Build Runner",
+      "type": "dart",
+      "request": "launch",
+      "program": "example/.dart_tool/build/entrypoint/build.dart",
+      "args": [
+        "build",
+        "--delete-conflicting-outputs",
+      ]
+    }
+  ]
+}

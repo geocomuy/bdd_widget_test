@@ -1,6 +1,5 @@
 import 'package:bdd_widget_test/src/generator_options.dart';
 import 'package:bdd_widget_test/src/step_generator.dart';
-import 'package:bdd_widget_test/src/util/constants.dart';
 import 'package:path/path.dart' as p;
 
 abstract class StepFile {
@@ -18,7 +17,7 @@ abstract class StepFile {
 
     if (existingSteps.containsKey(file)) {
       final import =
-          p.join('.', existingSteps[file], file).replaceAll(r'\', '/');
+          p.join('..', existingSteps[file], file).replaceAll(r'\', '/');
       return ExistingStepFile._(import);
     }
 
@@ -28,20 +27,19 @@ abstract class StepFile {
       return ExternalStepFile._(externalStep);
     }
 
-    if (generatorOptions.stepFolder.startsWith('./') ||
-        generatorOptions.stepFolder.startsWith('../')) {
-      final import =
-          p.join(generatorOptions.stepFolder, file).replaceAll(r'\', '/');
-      final filename = p.join(featureDir, generatorOptions.stepFolder, file);
-      return NewStepFile._(import, filename, package, line);
-    }
-
-    final pathToTestFolder = p.relative(testFolderName, from: featureDir);
-    final import = p
-        .join(pathToTestFolder, generatorOptions.stepFolder, file)
-        .replaceAll(r'\', '/');
-    final filename = p.join(testFolderName, generatorOptions.stepFolder, file);
+    // if (generatorOptions.stepFolder.startsWith('./') ||
+    //     generatorOptions.stepFolder.startsWith('../')) {
+    final import = p.join('../step', file).replaceAll(r'\', '/');
+    final filename = p.join(featureDir, 'step', file);
     return NewStepFile._(import, filename, package, line);
+    // }
+
+    // final pathToTestFolder = p.relative(testFolderName, from: featureDir);
+    // final import = p
+    //     .join(pathToTestFolder, generatorOptions.stepFolder, file)
+    //     .replaceAll(r'\', '/');
+    // final filename = p.join(testFolderName, generatorOptions.stepFolder, file);
+    // return NewStepFile._(import, filename, package, line);
   }
 }
 

@@ -16,16 +16,17 @@ Feature: Testing feature
     | 'Oleksandr' | '@olexale' |
 ''';
 
-    const expectedFeatureDart = '''
+    const expectedFeatureDart = [
+      '''
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_import, directives_ordering
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './step/the_following_users_exist.dart';
-import './step/i_wait.dart';
-import './step/user_with_twitter_is_still_there.dart';
+import '../step/the_following_users_exist.dart';
+import '../step/i_wait.dart';
+import '../step/user_with_twitter_is_still_there.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -37,7 +38,8 @@ void main() {
     });
   });
 }
-''';
+'''
+    ];
 
     final feature = FeatureFile(
       featureDir: 'test.feature',

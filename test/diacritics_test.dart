@@ -9,14 +9,15 @@ Feature: Testing feature
     Given los diacríticos son útil
 ''';
 
-    const expectedFeatureDart = '''
+    const expectedFeatureDart = [
+      '''
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_import, directives_ordering
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './step/los_diacriticos_son_util.dart';
+import '../step/los_diacriticos_son_util.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -25,7 +26,8 @@ void main() {
     });
   });
 }
-''';
+'''
+    ];
 
     final feature = FeatureFile(
       featureDir: 'test.feature',

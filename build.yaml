@@ -1,7 +1,11 @@
 builders:
   featureBuilder:
-    import: "package:bdd_widget_test/bdd_widget_test.dart"
-    builder_factories: ["featureBuilder"]
-    build_extensions: {".feature": [".dart"]}
+    import: 'package:bdd_widget_test/bdd_widget_test.dart'
+    builder_factories: ['featureBuilder']
+    build_extensions:
+      {
+        'test/features/{{name}}.feature':
+          ['test/{{name}}/.tracker', 'test/{{name}}/'],
+      }
     build_to: source
     auto_apply: root_package

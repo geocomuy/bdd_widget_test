@@ -5,7 +5,8 @@ import 'util/testing_data.dart';
 
 void main() {
   test('integration-related lines are added', () {
-    const expectedFeatureDart = '''
+    const expectedFeatureDart = [
+      '''
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_import, directives_ordering
 
@@ -13,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import './step/the_app_is_running.dart';
+import '../step/the_app_is_running.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,8 @@ void main() {
     });
   });
 }
-''';
+'''
+    ];
 
     final feature = FeatureFile(
       featureDir: 'test.feature',

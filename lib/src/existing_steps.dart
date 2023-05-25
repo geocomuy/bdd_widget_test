@@ -1,4 +1,3 @@
-import 'package:bdd_widget_test/src/util/constants.dart';
 import 'package:bdd_widget_test/src/util/fs.dart';
 import 'package:path/path.dart' as p;
 
@@ -8,9 +7,7 @@ Map<String, String> getExistingStepSubfolders(
   String stepFolderName,
 ) {
   final stepFolder = p.join(
-    stepFolderName.startsWith('./') || stepFolderName.startsWith('../')
-        ? featureDir
-        : testFolderName,
+    featureDir,
     stepFolderName,
   );
 

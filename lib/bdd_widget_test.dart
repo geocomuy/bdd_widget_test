@@ -5,8 +5,6 @@ import 'package:bdd_widget_test/src/step_file.dart';
 import 'package:bdd_widget_test/src/util/fs.dart';
 import 'package:build/build.dart';
 
-import 'package:path/path.dart' as p;
-
 Builder featureBuilder(BuilderOptions options) => FeatureBuilder(
       GeneratorOptions.fromMap(options.config),
     );
@@ -23,18 +21,34 @@ class FeatureBuilder implements Builder {
     final inputId = buildStep.inputId;
     final contents = await buildStep.readAsString(inputId);
 
-    final featureDir = p.dirname(inputId.path);
+    final isIntegrationTest = inputId.pathSegments.contains('integration_test');
+
+    final featureDir = isIntegrationTest ? 'integration_test' : 'test';
+
+    final featureTestFolder = expectedOutputs(this, inputId).last;
+    final name = featureTestFolder.pathSegments.last;
+
     final feature = FeatureFile(
-      featureDir: featureDir,
+      featureDir: featureTestFolder.path,
       package: inputId.package,
-      isIntegrationTest: inputId.pathSegments.contains('integration_test'),
-      existingSteps: getExistingStepSubfolders(featureDir, options.stepFolder),
+      isIntegrationTest: isIntegrationTest,
+      existingSteps: getExistingStepSubfolders(featureDir, 'step'),
       input: contents,
       generatorOptions: options,
     );
 
-    final featureDart = inputId.changeExtension('_test.dart');
-    await buildStep.writeAsString(featureDart, feature.dartContent);
+    var i = 1;
+
+    for (final content in feature.dartContent) {
+      await createFileRecursively(
+        '${featureTestFolder.path}/${name}_scenario_${(i++).toString().padLeft(2, '0')}_test.dart',
+        content,
+      );
+    }
+
+    final expectedOutput = expectedOutputs(this, inputId).first;
+
+    await buildStep.writeAsString(expectedOutput, name);
 
     final steps = feature
         .getStepFiles()
@@ -65,6 +79,9 @@ class FeatureBuilder implements Builder {
 
   @override
   final buildExtensions = const {
-    '.feature': ['_test.dart']
+    'test/features/{{name}}.feature': [
+      'test/{{name}}/.tracker',
+      'test/{{name}}/'
+    ],
   };
 }

@@ -18,7 +18,9 @@ class FeatureFile {
         .where((line) => line.type == LineType.step)
         .map(
           (e) => StepFile.create(
-            featureDir,
+            featureDir.contains('integration_test')
+                ? 'integration_test'
+                : 'test',
             package,
             e.value,
             existingSteps,
@@ -37,7 +39,7 @@ class FeatureFile {
   final Map<String, String> existingSteps;
   final GeneratorOptions generatorOptions;
 
-  String get dartContent => generateFeatureDart(
+  List<String> get dartContent => generateFeatureDart(
         _lines,
         getStepFiles(),
         generatorOptions.testMethodName,

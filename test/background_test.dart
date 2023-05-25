@@ -11,15 +11,16 @@ Feature: Testing feature
     Given the app is running
 ''';
 
-    const expectedFeatureDart = '''
+    const expectedFeatureDart = [
+      '''
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_import, directives_ordering
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './step/the_server_always_return_errors.dart';
-import './step/the_app_is_running.dart';
+import '../step/the_server_always_return_errors.dart';
+import '../step/the_app_is_running.dart';
 
 void main() {
   group(\'\'\'Testing feature\'\'\', () {
@@ -32,7 +33,8 @@ void main() {
     });
   });
 }
-''';
+'''
+    ];
 
     final feature = FeatureFile(
       featureDir: 'test.feature',

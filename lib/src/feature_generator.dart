@@ -6,7 +6,65 @@ import 'package:bdd_widget_test/src/step_generator.dart';
 import 'package:bdd_widget_test/src/util/constants.dart';
 import 'package:collection/collection.dart';
 
-String generateFeatureDart(
+List<String> generateFeatureDart(
+  List<BddLine> lines,
+  List<StepFile> steps,
+  String testMethodName,
+  bool isIntegrationTest,
+) {
+  final tags = <BddLine>[];
+  final baseLines = <BddLine>[];
+  final scenarioLines = <List<BddLine>>[];
+
+  for (final line in lines) {
+    if (line.type == LineType.tag) {
+      tags.add(line);
+    }
+
+    if (line.type == LineType.scenario ||
+        line.type == LineType.scenarioOutline) {
+      scenarioLines.add([...tags, line]);
+      tags.clear();
+    }
+
+    if (line.type == LineType.step ||
+        line.type == LineType.exampleTitle ||
+        line.type == LineType.examples) {
+      if (baseLines.last.type == LineType.background ||
+          baseLines.last.type == LineType.after) {
+        baseLines.add(line);
+      } else {
+        scenarioLines.last.add(line);
+      }
+    }
+
+    if (line.type == LineType.feature) {
+      baseLines.addAll([...tags, line]);
+      tags.clear();
+    }
+
+    if (line.type == LineType.background || line.type == LineType.after) {
+      baseLines.add(line);
+    }
+  }
+
+  final codeResults = <String>[];
+
+  for (final scenario in scenarioLines) {
+    codeResults.add(
+      _generateFeatureDart(
+        [...baseLines, ...scenario],
+        steps,
+        testMethodName,
+        isIntegrationTest,
+      ),
+    );
+  }
+
+  return codeResults;
+}
+
+String _generateFeatureDart(
   List<BddLine> lines,
   List<StepFile> steps,
   String testMethodName,
