@@ -37,10 +37,14 @@ class FeatureBuilder implements Builder {
       generatorOptions: options,
     );
 
-    await createFileRecursively(
-      '${featureTestFolder.path}/${name}_test.dart',
-      feature.dartContent,
-    );
+    var i = 1;
+
+    for (final content in feature.dartContent) {
+      await createFileRecursively(
+        '${featureTestFolder.path}/${name}_scenario_${(i++).toString().padLeft(2, '0')}_test.dart',
+        content,
+      );
+    }
 
     final expectedOutput = expectedOutputs(this, inputId).first;
 

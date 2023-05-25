@@ -18,23 +18,6 @@ void main() {
     Future<void> bddTearDown(WidgetTester tester) async {
       await iDoNotSeeText(tester, 'surprise');
     }
-    testWidgets('''Initial counter value is 0''', (tester) async {
-      try {
-        await bddSetUp(tester);
-        await iSeeText(tester, '0');
-      } finally {
-        await bddTearDown(tester);
-      }
-    });
-    testWidgets('''Add button increments the counter''', (tester) async {
-      try {
-        await bddSetUp(tester);
-        await iTapIcon(tester, Icons.add);
-        await iSeeText(tester, '1');
-      } finally {
-        await bddTearDown(tester);
-      }
-    });
     testWidgets('''Outline: Plus button increases the counter (0, '0')''', (tester) async {
       try {
         await bddSetUp(tester);

@@ -11,7 +11,7 @@ Feature: Testing feature
     Given the app is running
 ''';
 
-    const expectedFeatureDart = '''
+    const expectedFeatureDart = ['''
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_import, directives_ordering
 
@@ -32,7 +32,7 @@ void main() {
     });
   });
 }
-''';
+'''];
 
     final feature = FeatureFile(
       featureDir: 'test.feature',

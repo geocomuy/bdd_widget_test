@@ -39,7 +39,7 @@ class FeatureFile {
   final Map<String, String> existingSteps;
   final GeneratorOptions generatorOptions;
 
-  String get dartContent => generateFeatureDart(
+  List<String> get dartContent => generateFeatureDart(
         _lines,
         getStepFiles(),
         generatorOptions.testMethodName,
