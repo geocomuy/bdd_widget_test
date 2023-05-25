@@ -38,6 +38,8 @@ jobs:
 
       - name: 🎯 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v1
+        with:
+          min_coverage: 80
         
       - name: 🥇 Update coverage badge
         if: github.event_name != 'pull_request'
