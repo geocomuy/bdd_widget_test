@@ -96,7 +96,9 @@ String _generateFeatureDart(
     sb.writeln("@Tags(['${tags.join("', '")}'])");
   }
   sb.writeln("import 'package:flutter/material.dart';");
+  sb.writeln("import 'package:flutter/scheduler.dart';");
   sb.writeln("import 'package:flutter_test/flutter_test.dart';");
+
   if (isIntegrationTest) {
     sb.writeln("import 'package:integration_test/integration_test.dart';");
   }
@@ -109,7 +111,11 @@ String _generateFeatureDart(
   sb.writeln();
   sb.writeln('void main() {');
   if (isIntegrationTest) {
-    sb.writeln('  IntegrationTestWidgetsFlutterBinding.ensureInitialized();');
+    sb.writeln('''
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized().framePolicy =
+      LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
+  
+  timeDilation = 0.5;''');
     sb.writeln();
   }
 
