@@ -2,6 +2,7 @@
 // ignore_for_file: unused_import, directives_ordering
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../step/the_app_is_running.dart';
@@ -15,18 +16,39 @@ void main() {
     Future<void> bddSetUp(WidgetTester tester) async {
       await theAppIsRunning(tester);
     }
-
     Future<void> bddTearDown(WidgetTester tester) async {
       await iDoNotSeeText(tester, 'surprise');
     }
-
-    testWidgets('''Initial counter value is 0''', (tester) async {
+    testWidgets('''Outline: Plus button increases the counter (0, '0')''', (tester) async {
       try {
         await bddSetUp(tester);
+        await theAppIsRunning(tester);
+        await iTapIconTimes(tester, Icons.add, 0);
         await iSeeText(tester, '0');
       } finally {
         await bddTearDown(tester);
       }
     });
+    testWidgets('''Outline: Plus button increases the counter (1, '1')''', (tester) async {
+      try {
+        await bddSetUp(tester);
+        await theAppIsRunning(tester);
+        await iTapIconTimes(tester, Icons.add, 1);
+        await iSeeText(tester, '1');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
+    testWidgets('''Outline: Plus button increases the counter (42, '42')''', (tester) async {
+      try {
+        await bddSetUp(tester);
+        await theAppIsRunning(tester);
+        await iTapIconTimes(tester, Icons.add, 42);
+        await iSeeText(tester, '42');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
   });
+  timeDilation = 1;
 }
