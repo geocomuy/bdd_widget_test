@@ -17,10 +17,6 @@ class FeatureBuilder implements Builder {
   final GeneratorOptions generatorOptions;
   final logger = Logger();
 
-  Future<void> posProccess(String filePath) async {
-    await applyDartFixes(logger, filePath);
-  }
-
   @override
   Future<void> build(BuildStep buildStep) async {
     final options = await prepareOptions();
@@ -55,8 +51,6 @@ class FeatureBuilder implements Builder {
         content,
         regenerate: true,
       );
-
-      await posProccess(filePath);
     }
 
     final expectedOutput = expectedOutputs(this, inputId).first;
@@ -66,7 +60,6 @@ class FeatureBuilder implements Builder {
     final steps =
         feature.getStepFiles().whereType<NewStepFile>().map((e) async {
       await createFileRecursively(e.filename, e.dartContent);
-      await posProccess(e.filename);
     });
 
     await Future.wait(steps);
@@ -81,6 +74,12 @@ class FeatureBuilder implements Builder {
         : generatorOptions;
     final options = await flattenOptions(mergedOptions);
     return options;
+  }
+
+  Future<void> posProccess(String filePath) async {
+    await dartFormat(logger, filePath);
+    await applyDartFixes(logger, filePath);
+    await dartFormat(logger, filePath);
   }
 
   Future<void> createFileRecursively(
@@ -98,6 +97,7 @@ class FeatureBuilder implements Builder {
     }
     final file = await f.create(recursive: true);
     await file.writeAsString(content);
+    await posProccess(filename);
   }
 
   @override
