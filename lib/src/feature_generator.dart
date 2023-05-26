@@ -138,6 +138,7 @@ String _generateFeatureDart(
       featureTestMethodNameOverride,
     );
   }
+  sb.writeln('  timeDilation = 1;');
   sb.writeln('}');
   return sb.toString();
 }
