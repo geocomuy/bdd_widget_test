@@ -48,7 +48,7 @@ class FeatureBuilder implements Builder {
 
     final expectedOutput = expectedOutputs(this, inputId).first;
 
-    await buildStep.writeAsString(expectedOutput, name);
+    await buildStep.writeAsString(expectedOutput, contents);
 
     final steps = feature
         .getStepFiles()
@@ -71,7 +71,7 @@ class FeatureBuilder implements Builder {
   Future<void> createFileRecursively(String filename, String content) async {
     final f = fs.file(filename);
     if (f.existsSync()) {
-      return;
+      f.deleteSync(recursive: true);
     }
     final file = await f.create(recursive: true);
     await file.writeAsString(content);
