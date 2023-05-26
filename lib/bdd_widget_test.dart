@@ -1,9 +1,11 @@
+import 'package:bdd_widget_test/src/cli/cli.dart';
 import 'package:bdd_widget_test/src/existing_steps.dart';
 import 'package:bdd_widget_test/src/feature_file.dart';
 import 'package:bdd_widget_test/src/generator_options.dart';
 import 'package:bdd_widget_test/src/step_file.dart';
 import 'package:bdd_widget_test/src/util/fs.dart';
 import 'package:build/build.dart';
+import 'package:mason_logger/mason_logger.dart';
 
 Builder featureBuilder(BuilderOptions options) => FeatureBuilder(
       GeneratorOptions.fromMap(options.config),
@@ -13,6 +15,7 @@ class FeatureBuilder implements Builder {
   FeatureBuilder(this.generatorOptions);
 
   final GeneratorOptions generatorOptions;
+  final logger = Logger();
 
   @override
   Future<void> build(BuildStep buildStep) async {
@@ -39,21 +42,26 @@ class FeatureBuilder implements Builder {
 
     var i = 1;
 
+    final filePath =
+        '${featureTestFolder.path}/${name}_scenario_${(i++).toString().padLeft(2, '0')}_test.dart';
+
     for (final content in feature.dartContent) {
       await createFileRecursively(
-        '${featureTestFolder.path}/${name}_scenario_${(i++).toString().padLeft(2, '0')}_test.dart',
+        filePath,
         content,
+        regenerate: true,
       );
     }
 
     final expectedOutput = expectedOutputs(this, inputId).first;
 
-    await buildStep.writeAsString(expectedOutput, name);
+    await buildStep.writeAsString(expectedOutput, contents);
 
-    final steps = feature
-        .getStepFiles()
-        .whereType<NewStepFile>()
-        .map((e) => createFileRecursively(e.filename, e.dartContent));
+    final steps =
+        feature.getStepFiles().whereType<NewStepFile>().map((e) async {
+      await createFileRecursively(e.filename, e.dartContent);
+    });
+
     await Future.wait(steps);
   }
 
@@ -68,13 +76,28 @@ class FeatureBuilder implements Builder {
     return options;
   }
 
-  Future<void> createFileRecursively(String filename, String content) async {
+  Future<void> posProccess(String filePath) async {
+    await dartFormat(logger, filePath);
+    await applyDartFixes(logger, filePath);
+    await dartFormat(logger, filePath);
+  }
+
+  Future<void> createFileRecursively(
+    String filename,
+    String content, {
+    bool regenerate = false,
+  }) async {
     final f = fs.file(filename);
     if (f.existsSync()) {
-      return;
+      if (regenerate) {
+        f.deleteSync(recursive: true);
+      } else {
+        return;
+      }
     }
     final file = await f.create(recursive: true);
     await file.writeAsString(content);
+    await posProccess(filename);
   }
 
   @override
@@ -84,4 +107,32 @@ class FeatureBuilder implements Builder {
       'test/{{name}}/'
     ],
   };
+}
+
+Future<void> dartFormat(
+  Logger logger,
+  String filePath, {
+  bool recursive = false,
+}) async {
+  final isDartInstalled = await Dart.installed(logger: logger);
+  if (isDartInstalled) {
+    await Dart.format(
+      filePath: filePath,
+      logger: logger,
+    );
+  }
+}
+
+Future<void> applyDartFixes(
+  Logger logger,
+  String filePath, {
+  bool recursive = false,
+}) async {
+  final isDartInstalled = await Dart.installed(logger: logger);
+  if (isDartInstalled) {
+    await Dart.applyFixes(
+      filePath: filePath,
+      logger: logger,
+    );
+  }
 }

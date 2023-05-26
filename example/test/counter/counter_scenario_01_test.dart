@@ -3,6 +3,7 @@
 
 @Tags(['slow', 'ui'])
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../step/the_app_is_running.dart';
@@ -15,4 +16,5 @@ void main() {
       await iSeeText(tester, '0');
     }, tags: ['important', 'simple']);
   });
+  timeDilation = 1;
 }
