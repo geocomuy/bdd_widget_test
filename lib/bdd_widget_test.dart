@@ -42,10 +42,10 @@ class FeatureBuilder implements Builder {
 
     var i = 1;
 
-    final filePath =
-        '${featureTestFolder.path}/${name}_scenario_${(i++).toString().padLeft(2, '0')}_test.dart';
-
     for (final content in feature.dartContent) {
+      final filePath =
+          '${featureTestFolder.path}/${name}_scenario_${(i++).toString().padLeft(2, '0')}_test.dart';
+
       await createFileRecursively(
         filePath,
         content,
