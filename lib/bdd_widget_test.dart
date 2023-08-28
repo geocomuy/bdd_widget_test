@@ -104,7 +104,7 @@ class FeatureBuilder implements Builder {
   final buildExtensions = const {
     'test/features/{{name}}.feature': [
       'test/{{name}}/.tracker',
-      'test/{{name}}/'
+      'test/{{name}}/',
     ],
   };
 }

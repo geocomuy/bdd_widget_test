@@ -37,7 +37,7 @@ String getStepMethodCall(String stepLine, {List<String>? forceParams}) {
   final step = parseRawStepLine(stepLine);
   final parameters = [
     'tester',
-    if (forceParams != null) ...forceParams else ...step.skip(1)
+    if (forceParams != null) ...forceParams else ...step.skip(1),
   ].join(', ');
   return '${_camelizedString(step[0])}($parameters)';
 }
